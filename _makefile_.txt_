@@ -1,0 +1,154 @@
+path=C:\WINDOWS;C:\WINDOWS\system32;C:\PROGRA~1\PAXPAY~1\build\gcc343x\bin
+
+NAME      = FB
+VERSION   = v1.0
+GCCDIR    = C:\PROGRA~1\PAXPAY~1\build\gcc343x
+GCCBIN    = $(GCCDIR)\bin
+GCCLIB    = $(GCCDIR)\lib
+LOCSRC    = .
+LOCOBJ    = C:\Projeler\FB\FB\.\obj_s80
+LOCINC    = C:\PROGRA~1\PAXPAY~1\include
+POSLIBDIR = C:\PROGRA~1\PAXPAY~1\lib
+POSLIB    = s80api_sf
+
+ASM       = $(GCCBIN)\arm-elf-as -mfloat-abi=soft 
+GCC       = $(GCCBIN)\arm-elf-gcc -O0 -mlittle-endian -mcpu=arm9 -malignment-traps -msoft-float -fno-zero-initialized-in-bss -D_POS_S80 -I$(LOCINC) 
+CXX       = $(GCCBIN)\arm-elf-g++ -O0 -mlittle-endian -mcpu=arm9 -malignment-traps -msoft-float -fno-zero-initialized-in-bss -D_POS_S80 -I$(LOCINC) 
+LINK      = $(CXX) -T$(POSLIBDIR)\sldscript_s80x -L$(GCCLIB) -L$(POSLIBDIR) -L$(LOCOBJ)
+OBJ    =         $(LOCOBJ)\main.o \
+         $(LOCOBJ)\TrnxPuanKullanma.o \
+         $(LOCOBJ)\CardReader.o \
+         $(LOCOBJ)\Engine.o \
+         $(LOCOBJ)\UIEngine.o \
+         $(LOCOBJ)\IdleDlg.o \
+         $(LOCOBJ)\InputBox.o \
+         $(LOCOBJ)\LoginDlg.o \
+         $(LOCOBJ)\Menu.o \
+         $(LOCOBJ)\MenuItem.o \
+         $(LOCOBJ)\MessageBox.o \
+         $(LOCOBJ)\Screen.o \
+         $(LOCOBJ)\Batch.o \
+         $(LOCOBJ)\Paramters.o \
+         $(LOCOBJ)\Table.o \
+         $(LOCOBJ)\Terminal.o \
+         $(LOCOBJ)\dl_mem.o \
+         $(LOCOBJ)\dl_output.o \
+         $(LOCOBJ)\dl_str.o \
+         $(LOCOBJ)\dl_time.o \
+         $(LOCOBJ)\dl_timer.o \
+         $(LOCOBJ)\dl_iso8583.o \
+         $(LOCOBJ)\dl_iso8583_common.o \
+         $(LOCOBJ)\dl_iso8583_defs_1987.o \
+         $(LOCOBJ)\dl_iso8583_defs_1993.o \
+         $(LOCOBJ)\dl_iso8583_fields.o \
+         $(LOCOBJ)\Field.o \
+         $(LOCOBJ)\TrnxBakiyeSorgu.o \
+         $(LOCOBJ)\TrnxBakiyeYukleme.o \
+         $(LOCOBJ)\TrnxBase.o \
+         $(LOCOBJ)\TrnxFactory.o \
+         $(LOCOBJ)\TrnxHarcama.o \
+         $(LOCOBJ)\TrnxHarcamaIade.o \
+         $(LOCOBJ)\TrnxHarcamaIptal.o \
+         $(LOCOBJ)\TrnxKartGuncelle.o \
+         $(LOCOBJ)\TrnxNakitYukleme.o \
+         $(LOCOBJ)\TrnxPuanKullanmaIade.o \
+         $(LOCOBJ)\TrnxPuanKullanmaIptal.o \
+         $(LOCOBJ)\TrnxPuanSorgu.o
+
+#  ADS-ROM version
+$(NAME).elf: $(LOCOBJ)\init.o $(OBJ) _makefile_
+    $(LINK) -o $(LOCOBJ)\$(NAME).elf $(OBJ) -l$(POSLIB)  -lc -lgcc
+    elftobin $(LOCOBJ)\$(NAME).elf $(LOCOBJ)\$(NAME)($(VERSION)).bin PAX-S80-SAPP
+
+
+
+# ASM file
+$(LOCOBJ)\init.o: $(POSLIBDIR)\init_s80.s
+        $(ASM) $(POSLIBDIR)\init_s80.s -o $(LOCOBJ)\init.o
+
+#  C files
+$(LOCOBJ)\main.o: $(LOCSRC)\main.cpp
+        $(GCC) -c $(LOCSRC)\main.cpp -o $(LOCOBJ)\main.o
+$(LOCOBJ)\TrnxPuanKullanma.o: $(LOCSRC)\Trnx\TrnxPuanKullanma.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxPuanKullanma.cpp -o $(LOCOBJ)\TrnxPuanKullanma.o
+$(LOCOBJ)\CardReader.o: $(LOCSRC)\Engine\CardReader.cpp
+        $(GCC) -c $(LOCSRC)\Engine\CardReader.cpp -o $(LOCOBJ)\CardReader.o
+$(LOCOBJ)\Engine.o: $(LOCSRC)\Engine\Engine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\Engine.cpp -o $(LOCOBJ)\Engine.o
+$(LOCOBJ)\UIEngine.o: $(LOCSRC)\Engine\UIEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\UIEngine.cpp -o $(LOCOBJ)\UIEngine.o
+$(LOCOBJ)\IdleDlg.o: $(LOCSRC)\UI\IdleDlg.cpp
+        $(GCC) -c $(LOCSRC)\UI\IdleDlg.cpp -o $(LOCOBJ)\IdleDlg.o
+$(LOCOBJ)\InputBox.o: $(LOCSRC)\UI\InputBox.cpp
+        $(GCC) -c $(LOCSRC)\UI\InputBox.cpp -o $(LOCOBJ)\InputBox.o
+$(LOCOBJ)\LoginDlg.o: $(LOCSRC)\UI\LoginDlg.cpp
+        $(GCC) -c $(LOCSRC)\UI\LoginDlg.cpp -o $(LOCOBJ)\LoginDlg.o
+$(LOCOBJ)\Menu.o: $(LOCSRC)\UI\Menu.cpp
+        $(GCC) -c $(LOCSRC)\UI\Menu.cpp -o $(LOCOBJ)\Menu.o
+$(LOCOBJ)\MenuItem.o: $(LOCSRC)\UI\MenuItem.cpp
+        $(GCC) -c $(LOCSRC)\UI\MenuItem.cpp -o $(LOCOBJ)\MenuItem.o
+$(LOCOBJ)\MessageBox.o: $(LOCSRC)\UI\MessageBox.cpp
+        $(GCC) -c $(LOCSRC)\UI\MessageBox.cpp -o $(LOCOBJ)\MessageBox.o
+$(LOCOBJ)\Screen.o: $(LOCSRC)\UI\Screen.cpp
+        $(GCC) -c $(LOCSRC)\UI\Screen.cpp -o $(LOCOBJ)\Screen.o
+$(LOCOBJ)\Batch.o: $(LOCSRC)\Files\Batch.cpp
+        $(GCC) -c $(LOCSRC)\Files\Batch.cpp -o $(LOCOBJ)\Batch.o
+$(LOCOBJ)\Paramters.o: $(LOCSRC)\Files\Paramters.cpp
+        $(GCC) -c $(LOCSRC)\Files\Paramters.cpp -o $(LOCOBJ)\Paramters.o
+$(LOCOBJ)\Table.o: $(LOCSRC)\Files\Table.cpp
+        $(GCC) -c $(LOCSRC)\Files\Table.cpp -o $(LOCOBJ)\Table.o
+$(LOCOBJ)\Terminal.o: $(LOCSRC)\Files\Terminal.cpp
+        $(GCC) -c $(LOCSRC)\Files\Terminal.cpp -o $(LOCOBJ)\Terminal.o
+$(LOCOBJ)\dl_mem.o: $(LOCSRC)\8583\common\dl_mem.c
+        $(GCC) -c $(LOCSRC)\8583\common\dl_mem.c -o $(LOCOBJ)\dl_mem.o
+$(LOCOBJ)\dl_output.o: $(LOCSRC)\8583\common\dl_output.c
+        $(GCC) -c $(LOCSRC)\8583\common\dl_output.c -o $(LOCOBJ)\dl_output.o
+$(LOCOBJ)\dl_str.o: $(LOCSRC)\8583\common\dl_str.c
+        $(GCC) -c $(LOCSRC)\8583\common\dl_str.c -o $(LOCOBJ)\dl_str.o
+$(LOCOBJ)\dl_time.o: $(LOCSRC)\8583\common\dl_time.c
+        $(GCC) -c $(LOCSRC)\8583\common\dl_time.c -o $(LOCOBJ)\dl_time.o
+$(LOCOBJ)\dl_timer.o: $(LOCSRC)\8583\common\dl_timer.c
+        $(GCC) -c $(LOCSRC)\8583\common\dl_timer.c -o $(LOCOBJ)\dl_timer.o
+$(LOCOBJ)\dl_iso8583.o: $(LOCSRC)\8583\iso8583\dl_iso8583.c
+        $(GCC) -c $(LOCSRC)\8583\iso8583\dl_iso8583.c -o $(LOCOBJ)\dl_iso8583.o
+$(LOCOBJ)\dl_iso8583_common.o: $(LOCSRC)\8583\iso8583\dl_iso8583_common.c
+        $(GCC) -c $(LOCSRC)\8583\iso8583\dl_iso8583_common.c -o $(LOCOBJ)\dl_iso8583_common.o
+$(LOCOBJ)\dl_iso8583_defs_1987.o: $(LOCSRC)\8583\iso8583\dl_iso8583_defs_1987.c
+        $(GCC) -c $(LOCSRC)\8583\iso8583\dl_iso8583_defs_1987.c -o $(LOCOBJ)\dl_iso8583_defs_1987.o
+$(LOCOBJ)\dl_iso8583_defs_1993.o: $(LOCSRC)\8583\iso8583\dl_iso8583_defs_1993.c
+        $(GCC) -c $(LOCSRC)\8583\iso8583\dl_iso8583_defs_1993.c -o $(LOCOBJ)\dl_iso8583_defs_1993.o
+$(LOCOBJ)\dl_iso8583_fields.o: $(LOCSRC)\8583\iso8583\dl_iso8583_fields.c
+        $(GCC) -c $(LOCSRC)\8583\iso8583\dl_iso8583_fields.c -o $(LOCOBJ)\dl_iso8583_fields.o
+$(LOCOBJ)\Field.o: $(LOCSRC)\8583\Field.cpp
+        $(GCC) -c $(LOCSRC)\8583\Field.cpp -o $(LOCOBJ)\Field.o
+$(LOCOBJ)\TrnxBakiyeSorgu.o: $(LOCSRC)\Trnx\TrnxBakiyeSorgu.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxBakiyeSorgu.cpp -o $(LOCOBJ)\TrnxBakiyeSorgu.o
+$(LOCOBJ)\TrnxBakiyeYukleme.o: $(LOCSRC)\Trnx\TrnxBakiyeYukleme.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxBakiyeYukleme.cpp -o $(LOCOBJ)\TrnxBakiyeYukleme.o
+$(LOCOBJ)\TrnxBase.o: $(LOCSRC)\Trnx\TrnxBase.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxBase.cpp -o $(LOCOBJ)\TrnxBase.o
+$(LOCOBJ)\TrnxFactory.o: $(LOCSRC)\Trnx\TrnxFactory.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxFactory.cpp -o $(LOCOBJ)\TrnxFactory.o
+$(LOCOBJ)\TrnxHarcama.o: $(LOCSRC)\Trnx\TrnxHarcama.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxHarcama.cpp -o $(LOCOBJ)\TrnxHarcama.o
+$(LOCOBJ)\TrnxHarcamaIade.o: $(LOCSRC)\Trnx\TrnxHarcamaIade.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxHarcamaIade.cpp -o $(LOCOBJ)\TrnxHarcamaIade.o
+$(LOCOBJ)\TrnxHarcamaIptal.o: $(LOCSRC)\Trnx\TrnxHarcamaIptal.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxHarcamaIptal.cpp -o $(LOCOBJ)\TrnxHarcamaIptal.o
+$(LOCOBJ)\TrnxKartGuncelle.o: $(LOCSRC)\Trnx\TrnxKartGuncelle.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxKartGuncelle.cpp -o $(LOCOBJ)\TrnxKartGuncelle.o
+$(LOCOBJ)\TrnxNakitYukleme.o: $(LOCSRC)\Trnx\TrnxNakitYukleme.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxNakitYukleme.cpp -o $(LOCOBJ)\TrnxNakitYukleme.o
+$(LOCOBJ)\TrnxPuanKullanmaIade.o: $(LOCSRC)\Trnx\TrnxPuanKullanmaIade.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxPuanKullanmaIade.cpp -o $(LOCOBJ)\TrnxPuanKullanmaIade.o
+$(LOCOBJ)\TrnxPuanKullanmaIptal.o: $(LOCSRC)\Trnx\TrnxPuanKullanmaIptal.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxPuanKullanmaIptal.cpp -o $(LOCOBJ)\TrnxPuanKullanmaIptal.o
+$(LOCOBJ)\TrnxPuanSorgu.o: $(LOCSRC)\Trnx\TrnxPuanSorgu.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxPuanSorgu.cpp -o $(LOCOBJ)\TrnxPuanSorgu.o
+clean:
+	del *.db
+	del *.blk
+	del *.db2
+	del *.out
+	del *.o
+	del *.elf

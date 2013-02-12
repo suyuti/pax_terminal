@@ -1,0 +1,7 @@
+.\Files\SettleReport.cpp:227:2: warning: no newline at end of file
+.\Trnx\TrnxOnline.cpp:154:2: warning: no newline at end of file
+.\Util\NumFuncs.cpp: In function `double Bin2Dbl(unsigned char*, unsigned int)':
+.\Util\NumFuncs.cpp:101: warning: left shift count >= width of type
+.\Util\NumFuncs.cpp:101: warning: left shift count >= width of type
+.\Util\NumFuncs.cpp:101: warning: left shift count >= width of type
+.\Util\NumFuncs.cpp:101: warning: left shift count >= width of type

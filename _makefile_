@@ -1,0 +1,193 @@
+path=C:\WINDOWS;C:\WINDOWS\system32;C:\PROGRA~1\PAXPAY~1\build\gcc343x\bin
+
+NAME      = FB
+VERSION   = v1.0
+GCCDIR    = C:\PROGRA~1\PAXPAY~1\build\gcc343x
+GCCBIN    = $(GCCDIR)\bin
+GCCLIB    = $(GCCDIR)\lib
+LOCSRC    = .
+LOCOBJ    = C:\Projeler\FB\FB\.\obj_s80
+LOCINC    = C:\PROGRA~1\PAXPAY~1\include
+POSLIBDIR = C:\PROGRA~1\PAXPAY~1\lib
+POSLIB    = s80api_sf
+
+ASM       = $(GCCBIN)\arm-elf-as -mfloat-abi=soft 
+GCC       = $(GCCBIN)\arm-elf-gcc -O0 -mlittle-endian -mcpu=arm9 -malignment-traps -msoft-float -fno-zero-initialized-in-bss -D_POS_S80 -I$(LOCINC) 
+CXX       = $(GCCBIN)\arm-elf-g++ -O0 -mlittle-endian -mcpu=arm9 -malignment-traps -msoft-float -fno-zero-initialized-in-bss -D_POS_S80 -I$(LOCINC) 
+LINK      = $(CXX) -T$(POSLIBDIR)\sldscript_s80x -L$(GCCLIB) -L$(POSLIBDIR) -L$(LOCOBJ)
+OBJ    =         $(LOCOBJ)\main.o \
+         $(LOCOBJ)\PasswordCheck.o \
+         $(LOCOBJ)\AdviceEngine.o \
+         $(LOCOBJ)\CardReader.o \
+         $(LOCOBJ)\CommEngine2.o \
+         $(LOCOBJ)\Engine.o \
+         $(LOCOBJ)\FileSystem.o \
+         $(LOCOBJ)\OnlineEngine.o \
+         $(LOCOBJ)\PrinterEngine.o \
+         $(LOCOBJ)\RefundEngine.o \
+         $(LOCOBJ)\SettleEngine.o \
+         $(LOCOBJ)\TMSEngine.o \
+         $(LOCOBJ)\UIEngine.o \
+         $(LOCOBJ)\VoidEngine.o \
+         $(LOCOBJ)\DelayedMessageBox.o \
+         $(LOCOBJ)\IdleDlg.o \
+         $(LOCOBJ)\InputBox.o \
+         $(LOCOBJ)\LoginDlg.o \
+         $(LOCOBJ)\Menu.o \
+         $(LOCOBJ)\MenuItem.o \
+         $(LOCOBJ)\MessageBox.o \
+         $(LOCOBJ)\Screen.o \
+         $(LOCOBJ)\ScreenBatchSum.o \
+         $(LOCOBJ)\ScreenDefParams.o \
+         $(LOCOBJ)\ScreenParams.o \
+         $(LOCOBJ)\ScreenTrnxLog.o \
+         $(LOCOBJ)\SSMenu2.o \
+         $(LOCOBJ)\UIUtils.o \
+         $(LOCOBJ)\Acquier.o \
+         $(LOCOBJ)\Batch.o \
+         $(LOCOBJ)\Issuer.o \
+         $(LOCOBJ)\Paramters.o \
+         $(LOCOBJ)\SettleReport.o \
+         $(LOCOBJ)\Table.o \
+         $(LOCOBJ)\Terminal.o \
+         $(LOCOBJ)\8583.o \
+         $(LOCOBJ)\TrnxBakiyeSorgu.o \
+         $(LOCOBJ)\TrnxBase.o \
+         $(LOCOBJ)\TrnxDebitYukleme.o \
+         $(LOCOBJ)\TrnxFactory.o \
+         $(LOCOBJ)\TrnxHarcama.o \
+         $(LOCOBJ)\TrnxKartGuncelle.o \
+         $(LOCOBJ)\TrnxKrediKartYukleme.o \
+         $(LOCOBJ)\TrnxNakitYukleme.o \
+         $(LOCOBJ)\TrnxOnline.o \
+         $(LOCOBJ)\TrnxPuanKullanma.o \
+         $(LOCOBJ)\TrnxPuanSorgu.o \
+         $(LOCOBJ)\TrnxRefund.o \
+         $(LOCOBJ)\NumFuncs.o \
+         $(LOCOBJ)\Tlv.o \
+         $(LOCOBJ)\crypt.o \
+         $(LOCOBJ)\des.o
+
+#  ADS-ROM version
+$(NAME).elf: $(LOCOBJ)\init.o $(OBJ) _makefile_
+    $(LINK) -o $(LOCOBJ)\$(NAME).elf $(OBJ) -l$(POSLIB)  -lc -lgcc
+    elftobin $(LOCOBJ)\$(NAME).elf $(LOCOBJ)\$(NAME)($(VERSION)).bin PAX-S80-SAPP
+
+
+
+# ASM file
+$(LOCOBJ)\init.o: $(POSLIBDIR)\init_s80.s
+        $(ASM) $(POSLIBDIR)\init_s80.s -o $(LOCOBJ)\init.o
+
+#  C files
+$(LOCOBJ)\main.o: $(LOCSRC)\main.cpp
+        $(GCC) -c $(LOCSRC)\main.cpp -o $(LOCOBJ)\main.o
+$(LOCOBJ)\PasswordCheck.o: $(LOCSRC)\UI\PasswordCheck.cpp
+        $(GCC) -c $(LOCSRC)\UI\PasswordCheck.cpp -o $(LOCOBJ)\PasswordCheck.o
+$(LOCOBJ)\AdviceEngine.o: $(LOCSRC)\Engine\AdviceEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\AdviceEngine.cpp -o $(LOCOBJ)\AdviceEngine.o
+$(LOCOBJ)\CardReader.o: $(LOCSRC)\Engine\CardReader.cpp
+        $(GCC) -c $(LOCSRC)\Engine\CardReader.cpp -o $(LOCOBJ)\CardReader.o
+$(LOCOBJ)\CommEngine2.o: $(LOCSRC)\Engine\CommEngine2.cpp
+        $(GCC) -c $(LOCSRC)\Engine\CommEngine2.cpp -o $(LOCOBJ)\CommEngine2.o
+$(LOCOBJ)\Engine.o: $(LOCSRC)\Engine\Engine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\Engine.cpp -o $(LOCOBJ)\Engine.o
+$(LOCOBJ)\FileSystem.o: $(LOCSRC)\Engine\FileSystem.cpp
+        $(GCC) -c $(LOCSRC)\Engine\FileSystem.cpp -o $(LOCOBJ)\FileSystem.o
+$(LOCOBJ)\OnlineEngine.o: $(LOCSRC)\Engine\OnlineEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\OnlineEngine.cpp -o $(LOCOBJ)\OnlineEngine.o
+$(LOCOBJ)\PrinterEngine.o: $(LOCSRC)\Engine\PrinterEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\PrinterEngine.cpp -o $(LOCOBJ)\PrinterEngine.o
+$(LOCOBJ)\RefundEngine.o: $(LOCSRC)\Engine\RefundEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\RefundEngine.cpp -o $(LOCOBJ)\RefundEngine.o
+$(LOCOBJ)\SettleEngine.o: $(LOCSRC)\Engine\SettleEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\SettleEngine.cpp -o $(LOCOBJ)\SettleEngine.o
+$(LOCOBJ)\TMSEngine.o: $(LOCSRC)\Engine\TMSEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\TMSEngine.cpp -o $(LOCOBJ)\TMSEngine.o
+$(LOCOBJ)\UIEngine.o: $(LOCSRC)\Engine\UIEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\UIEngine.cpp -o $(LOCOBJ)\UIEngine.o
+$(LOCOBJ)\VoidEngine.o: $(LOCSRC)\Engine\VoidEngine.cpp
+        $(GCC) -c $(LOCSRC)\Engine\VoidEngine.cpp -o $(LOCOBJ)\VoidEngine.o
+$(LOCOBJ)\DelayedMessageBox.o: $(LOCSRC)\UI\DelayedMessageBox.cpp
+        $(GCC) -c $(LOCSRC)\UI\DelayedMessageBox.cpp -o $(LOCOBJ)\DelayedMessageBox.o
+$(LOCOBJ)\IdleDlg.o: $(LOCSRC)\UI\IdleDlg.cpp
+        $(GCC) -c $(LOCSRC)\UI\IdleDlg.cpp -o $(LOCOBJ)\IdleDlg.o
+$(LOCOBJ)\InputBox.o: $(LOCSRC)\UI\InputBox.cpp
+        $(GCC) -c $(LOCSRC)\UI\InputBox.cpp -o $(LOCOBJ)\InputBox.o
+$(LOCOBJ)\LoginDlg.o: $(LOCSRC)\UI\LoginDlg.cpp
+        $(GCC) -c $(LOCSRC)\UI\LoginDlg.cpp -o $(LOCOBJ)\LoginDlg.o
+$(LOCOBJ)\Menu.o: $(LOCSRC)\UI\Menu.cpp
+        $(GCC) -c $(LOCSRC)\UI\Menu.cpp -o $(LOCOBJ)\Menu.o
+$(LOCOBJ)\MenuItem.o: $(LOCSRC)\UI\MenuItem.cpp
+        $(GCC) -c $(LOCSRC)\UI\MenuItem.cpp -o $(LOCOBJ)\MenuItem.o
+$(LOCOBJ)\MessageBox.o: $(LOCSRC)\UI\MessageBox.cpp
+        $(GCC) -c $(LOCSRC)\UI\MessageBox.cpp -o $(LOCOBJ)\MessageBox.o
+$(LOCOBJ)\Screen.o: $(LOCSRC)\UI\Screen.cpp
+        $(GCC) -c $(LOCSRC)\UI\Screen.cpp -o $(LOCOBJ)\Screen.o
+$(LOCOBJ)\ScreenBatchSum.o: $(LOCSRC)\UI\ScreenBatchSum.cpp
+        $(GCC) -c $(LOCSRC)\UI\ScreenBatchSum.cpp -o $(LOCOBJ)\ScreenBatchSum.o
+$(LOCOBJ)\ScreenDefParams.o: $(LOCSRC)\UI\ScreenDefParams.cpp
+        $(GCC) -c $(LOCSRC)\UI\ScreenDefParams.cpp -o $(LOCOBJ)\ScreenDefParams.o
+$(LOCOBJ)\ScreenParams.o: $(LOCSRC)\UI\ScreenParams.cpp
+        $(GCC) -c $(LOCSRC)\UI\ScreenParams.cpp -o $(LOCOBJ)\ScreenParams.o
+$(LOCOBJ)\ScreenTrnxLog.o: $(LOCSRC)\UI\ScreenTrnxLog.cpp
+        $(GCC) -c $(LOCSRC)\UI\ScreenTrnxLog.cpp -o $(LOCOBJ)\ScreenTrnxLog.o
+$(LOCOBJ)\SSMenu2.o: $(LOCSRC)\UI\SSMenu2.cpp
+        $(GCC) -c $(LOCSRC)\UI\SSMenu2.cpp -o $(LOCOBJ)\SSMenu2.o
+$(LOCOBJ)\UIUtils.o: $(LOCSRC)\UI\UIUtils.cpp
+        $(GCC) -c $(LOCSRC)\UI\UIUtils.cpp -o $(LOCOBJ)\UIUtils.o
+$(LOCOBJ)\Acquier.o: $(LOCSRC)\Files\Acquier.cpp
+        $(GCC) -c $(LOCSRC)\Files\Acquier.cpp -o $(LOCOBJ)\Acquier.o
+$(LOCOBJ)\Batch.o: $(LOCSRC)\Files\Batch.cpp
+        $(GCC) -c $(LOCSRC)\Files\Batch.cpp -o $(LOCOBJ)\Batch.o
+$(LOCOBJ)\Issuer.o: $(LOCSRC)\Files\Issuer.cpp
+        $(GCC) -c $(LOCSRC)\Files\Issuer.cpp -o $(LOCOBJ)\Issuer.o
+$(LOCOBJ)\Paramters.o: $(LOCSRC)\Files\Paramters.cpp
+        $(GCC) -c $(LOCSRC)\Files\Paramters.cpp -o $(LOCOBJ)\Paramters.o
+$(LOCOBJ)\SettleReport.o: $(LOCSRC)\Files\SettleReport.cpp
+        $(GCC) -c $(LOCSRC)\Files\SettleReport.cpp -o $(LOCOBJ)\SettleReport.o
+$(LOCOBJ)\Table.o: $(LOCSRC)\Files\Table.cpp
+        $(GCC) -c $(LOCSRC)\Files\Table.cpp -o $(LOCOBJ)\Table.o
+$(LOCOBJ)\Terminal.o: $(LOCSRC)\Files\Terminal.cpp
+        $(GCC) -c $(LOCSRC)\Files\Terminal.cpp -o $(LOCOBJ)\Terminal.o
+$(LOCOBJ)\8583.o: $(LOCSRC)\8583\8583.cpp
+        $(GCC) -c $(LOCSRC)\8583\8583.cpp -o $(LOCOBJ)\8583.o
+$(LOCOBJ)\TrnxBakiyeSorgu.o: $(LOCSRC)\Trnx\TrnxBakiyeSorgu.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxBakiyeSorgu.cpp -o $(LOCOBJ)\TrnxBakiyeSorgu.o
+$(LOCOBJ)\TrnxBase.o: $(LOCSRC)\Trnx\TrnxBase.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxBase.cpp -o $(LOCOBJ)\TrnxBase.o
+$(LOCOBJ)\TrnxDebitYukleme.o: $(LOCSRC)\Trnx\TrnxDebitYukleme.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxDebitYukleme.cpp -o $(LOCOBJ)\TrnxDebitYukleme.o
+$(LOCOBJ)\TrnxFactory.o: $(LOCSRC)\Trnx\TrnxFactory.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxFactory.cpp -o $(LOCOBJ)\TrnxFactory.o
+$(LOCOBJ)\TrnxHarcama.o: $(LOCSRC)\Trnx\TrnxHarcama.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxHarcama.cpp -o $(LOCOBJ)\TrnxHarcama.o
+$(LOCOBJ)\TrnxKartGuncelle.o: $(LOCSRC)\Trnx\TrnxKartGuncelle.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxKartGuncelle.cpp -o $(LOCOBJ)\TrnxKartGuncelle.o
+$(LOCOBJ)\TrnxKrediKartYukleme.o: $(LOCSRC)\Trnx\TrnxKrediKartYukleme.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxKrediKartYukleme.cpp -o $(LOCOBJ)\TrnxKrediKartYukleme.o
+$(LOCOBJ)\TrnxNakitYukleme.o: $(LOCSRC)\Trnx\TrnxNakitYukleme.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxNakitYukleme.cpp -o $(LOCOBJ)\TrnxNakitYukleme.o
+$(LOCOBJ)\TrnxOnline.o: $(LOCSRC)\Trnx\TrnxOnline.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxOnline.cpp -o $(LOCOBJ)\TrnxOnline.o
+$(LOCOBJ)\TrnxPuanKullanma.o: $(LOCSRC)\Trnx\TrnxPuanKullanma.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxPuanKullanma.cpp -o $(LOCOBJ)\TrnxPuanKullanma.o
+$(LOCOBJ)\TrnxPuanSorgu.o: $(LOCSRC)\Trnx\TrnxPuanSorgu.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxPuanSorgu.cpp -o $(LOCOBJ)\TrnxPuanSorgu.o
+$(LOCOBJ)\TrnxRefund.o: $(LOCSRC)\Trnx\TrnxRefund.cpp
+        $(GCC) -c $(LOCSRC)\Trnx\TrnxRefund.cpp -o $(LOCOBJ)\TrnxRefund.o
+$(LOCOBJ)\NumFuncs.o: $(LOCSRC)\Util\NumFuncs.cpp
+        $(GCC) -c $(LOCSRC)\Util\NumFuncs.cpp -o $(LOCOBJ)\NumFuncs.o
+$(LOCOBJ)\Tlv.o: $(LOCSRC)\Util\Tlv.cpp
+        $(GCC) -c $(LOCSRC)\Util\Tlv.cpp -o $(LOCOBJ)\Tlv.o
+$(LOCOBJ)\crypt.o: $(LOCSRC)\Crypt\crypt.cpp
+        $(GCC) -c $(LOCSRC)\Crypt\crypt.cpp -o $(LOCOBJ)\crypt.o
+$(LOCOBJ)\des.o: $(LOCSRC)\Crypt\des.cpp
+        $(GCC) -c $(LOCSRC)\Crypt\des.cpp -o $(LOCOBJ)\des.o
+clean:
+	del *.db
+	del *.blk
+	del *.db2
+	del *.out
+	del *.o
+	del *.elf

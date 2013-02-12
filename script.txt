@@ -1,0 +1,5 @@
+[POS]
+COM = 2
+Baudrate = 6
+[APP1]
+App= C:\Projeler\FB\FB\obj_s80\FB(v1.0).bin
